@@ -25,12 +25,14 @@ async function run() {
         const offersCollection = database.collection('offers');
         const bookingCollection = database.collection("bookings");
 
+        // GET All Offers
         app.get('/offers', async(req, res) => {
             const cursor = offersCollection.find({});
             const result = await cursor.toArray();
             res.send(result);
         })
 
+        // GET Single Order by id
         app.get('/offers/:id', async(req, res) => {
             const id = req.params.id;
             const query = {_id:ObjectId(id)};
@@ -38,24 +40,28 @@ async function run() {
             res.json(offer);
         })
 
+        // POST New Offer
         app.post('/offers', async(req, res) => {
             const offerInfo = req.body;
             const result = await offersCollection.insertOne(offerInfo);
             res.json(result);
         })
 
+        // GET All Bookings
         app.get('/bookings', async(req, res) => {
             const cursor = bookingCollection.find({});
             const result = await cursor.toArray();
             res.send(result);
         })
 
+        // POST New Booking
         app.post('/bookings', async(req, res) => {
             const bookingInfo = req.body;
             const result = await bookingCollection.insertOne(bookingInfo);
             res.json(result);
         })
 
+        // DELETE a Booking
         app.delete('/bookings/:id', async(req, res) => {
             const id = req.params.id;
             const query = {_id:ObjectId(id)};
